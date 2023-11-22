@@ -1,0 +1,57 @@
+[
+  {
+    "id": 0,
+    "sceneName": "Вход в ИТ Парк",
+    "scenePanoImg": "/ENTER.jpg",
+    "hotSpotsArr": [{"pitch": -3.72, "yaw": 128.6, "transition": "1"}],
+    "init": {"pitch": 5.7, "yaw": -20}
+  },
+  {
+    "id": 1,
+    "sceneName": "Турникет",
+    "scenePanoImg": "/ATRIUM.jpg",
+    "hotSpotsArr": [{"pitch": 2, "yaw": 117.6, "transition": "0"}, {"pitch": -2, "yaw": -1, "transition": "2"}],
+    "init": {"pitch": 5.7, "yaw": -20}
+  },
+  {
+    "id": 2,
+    "sceneName": "Лифт",
+    "scenePanoImg": "/LIFT.jpg",
+    "hotSpotsArr": [{"pitch": -37, "yaw": 63, "transition": "1"}, {"pitch": -10, "yaw": -20, "transition": "3"}],
+    "init": {"pitch": 5.7, "yaw": -20}
+  },
+  {
+    "id": 3,
+    "sceneName": "Выход с лифта",
+    "scenePanoImg": "/LIFT_EXIT.jpg",
+    "name": "Выход с лифта",
+    "hotSpotsArr": [{"pitch": -13, "yaw": 177, "transition": "2"}, {"pitch": -3, "yaw": 96, "transition": "4"}],
+    "init": {"pitch": -230, "yaw": -12}
+  },
+  {
+    "id": 4,
+    "sceneName": "Коридор 6 этаж",
+    "scenePanoImg": "/KORIDOR.jpg",
+    "hotSpotsArr": [{"pitch": -4, "yaw": -153, "transition": "3"}, {"pitch": -12, "yaw": -88, "transition": "5"}, {"pitch": -12, "yaw": -260, "transition": "6"}],
+    "init": {"pitch": 3, "yaw": -10}
+  },
+  {
+    "id": 5,
+    "sceneName": "SmartOm",
+    "creator": "Михайлов Максим Павлович",
+    "createdAt": "16.09.2022",
+    "fieldOfActivity": "ИТ",
+    "info": "Разработка промышленных программируемых логических контроллеров SmartPLC и систем автоматизации, со своей облачной платформой SmartOmCloud.",
+    "service": "Поставка продукции SmartOm. Услуги по разработке электроники и IoT устройств полного цикла.",
+    "scenePanoImg": "/615_ROOM.jpg",
+    "hotSpotsArr": [{"pitch": -9, "yaw": -225, "transition": "4"}],
+    "init": {"pitch": -230, "yaw": -12}
+  },
+  {
+    "id": 6,
+    "sceneName": "GIGA TECH",
+    "scenePanoImg": "/622_ROOM.jpg",
+    "hotSpotsArr": [{"pitch": -10, "yaw": -165, "transition": "4"}],
+    "init": {"pitch": 3, "yaw": -10}
+  }
+]
