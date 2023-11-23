@@ -9,6 +9,6 @@ export const useAuthRedirect = () => {
 
 	useEffect(() => {
 		if (user) push('/')
-		else if (pathname !== '/auth' && pathname !== '/register') replace('/auth')
+		if (pathname !== '/auth' && pathname !== '/register') replace('/auth')
 	}, [user])
 }
