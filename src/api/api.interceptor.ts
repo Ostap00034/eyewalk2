@@ -4,7 +4,7 @@ import { getAccessToken, removeFromStorage } from '@/services/auth/auth.helper'
 import { AuthService } from '@/services/auth/auth.service'
 
 export const instance = axios.create({
-	baseURL: 'http://localhost:4200/api/',
+	baseURL: 'https://eye-walk.online/api',
 	headers: getContentType(),
 })
 

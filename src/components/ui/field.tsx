@@ -3,7 +3,7 @@ import { FC, HTMLAttributes } from 'react'
 interface IFieldProps extends HTMLAttributes<HTMLInputElement> {
 	placeholder: string
 	type: string
-	value: any
+	value?: any
 }
 
 const Field: FC<IFieldProps> = ({ placeholder, type, ...props }) => {

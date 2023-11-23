@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Field from '@/components/ui/field'
 
 import cn from 'clsx'
+import { io } from 'socket.io-client/debug'
 
 const statuses = ['На рассмотрении', 'Отклонено', 'Принято']
 
@@ -13,14 +14,46 @@ const IntershipQueries = () => {
 	const [status, setStatus] = useState('In analys')
 
 	useEffect(() => {
+		const socket = io('https://eye-walk.online/')
+
 		const fetchData = async () => {
 			const queries = await IntershipQueryService.getAll()
-			console.log(queries)
 
 			setData(queries.data)
 		}
 
 		fetchData()
+
+		socket.on('create-i', query => {
+			setData(prevData => {
+				const newArray = [...prevData]
+
+				newArray.unshift(query)
+
+				return newArray
+			})
+		})
+
+		socket.on('update-i', query => {
+			setData(prevData => {
+				const newArray = [...prevData]
+
+				const existingQuery = newArray.findIndex(q => q.id === query.id)
+
+				if (existingQuery !== -1) {
+					newArray[existingQuery] = query
+				} else {
+					newArray.unshift(query)
+				}
+
+				return newArray
+			})
+		})
+
+		return () => {
+			socket.off('create-i')
+			socket.off('update-i')
+		}
 	}, [])
 
 	return (
@@ -96,18 +129,32 @@ const IntershipQueries = () => {
 								>
 									<div className='text-center w-[3vw]'>{query.id}</div>
 									<div className='text-center w-[20vw]'>
-										<Field
-											placeholder=''
-											type='date'
-											value={query.appointmentDate.toString().slice(0, 10)}
-											onChange={async e => {
-												console.log(e.target.value)
-												await IntershipQueryService.updateStatus(query.id, {
-													status: 'Accept',
-													appointmentDate: new Date(e.target.value),
-												})
-											}}
-										/>
+										{query.appointmentDate ? (
+											<Field
+												placeholder=''
+												value={query.appointmentDate.toString().slice(0, 10)}
+												type='date'
+												onChange={async e => {
+													console.log(e.target.value)
+													await IntershipQueryService.updateStatus(query.id, {
+														status: 'Accept',
+														appointmentDate: new Date(e.target.value),
+													})
+												}}
+											/>
+										) : (
+											<Field
+												placeholder=''
+												type='date'
+												onChange={async e => {
+													console.log(e.target.value)
+													await IntershipQueryService.updateStatus(query.id, {
+														status: 'Accept',
+														appointmentDate: new Date(e.target.value),
+													})
+												}}
+											/>
+										)}
 									</div>
 									<div className='text-center w-[20vw]'>{query.fio}</div>
 									<div className='text-center w-[15vw]'>

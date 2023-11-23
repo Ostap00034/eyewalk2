@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import cn from 'clsx'
 import Field from '@/components/ui/field'
+import { io } from 'socket.io-client'
 
 const VisitQueries = () => {
 	const { user } = useAuth()
@@ -18,6 +19,8 @@ const VisitQueries = () => {
 	const [status, setStatus] = useState('In analys')
 
 	useEffect(() => {
+		const socket = io('https://eye-walk.online/')
+
 		const fetchData = async () => {
 			const queries = await VisitQueryService.getAll()
 
@@ -25,6 +28,37 @@ const VisitQueries = () => {
 		}
 
 		fetchData()
+
+		socket.on('create-v', query => {
+			setData(prevData => {
+				const newArray = [...prevData]
+
+				newArray.unshift(query)
+
+				return newArray
+			})
+		})
+
+		socket.on('update-v', query => {
+			setData(prevData => {
+				const newArray = [...prevData]
+
+				const existingQuery = newArray.findIndex(q => q.id === query.id)
+
+				if (existingQuery !== -1) {
+					newArray[existingQuery] = query
+				} else {
+					newArray.unshift(query)
+				}
+
+				return newArray
+			})
+		})
+
+		return () => {
+			socket.off('create-v')
+			socket.off('update-v')
+		}
 	}, [])
 
 	return (
@@ -76,7 +110,7 @@ const VisitQueries = () => {
 
 				<Link href='/intershipqueries'>
 					<div className='px-12 text-[18px] font-century-gothic font-bold leading-[32px] cursor-pointer'>
-						Заявки на очный визит
+						Заявки на прохождение стажировки/практики
 					</div>
 				</Link>
 			</div>
@@ -100,18 +134,32 @@ const VisitQueries = () => {
 								>
 									<div className='text-center w-[3vw]'>{query.id}</div>
 									<div className='text-center w-[20vw]'>
-										<Field
-											placeholder=''
-											type='date'
-											value={query.appointmentDate.toString().slice(0, 10)}
-											onChange={async e => {
-												console.log(e.target.value)
-												await VisitQueryService.updateStatus(query.id, {
-													status: 'Accept',
-													appointmentDate: new Date(e.target.value),
-												})
-											}}
-										/>
+										{query.appointmentDate ? (
+											<Field
+												placeholder=''
+												value={query.appointmentDate.toString().slice(0, 10)}
+												type='date'
+												onChange={async e => {
+													console.log(e.target.value)
+													await VisitQueryService.updateStatus(query.id, {
+														status: 'Accept',
+														appointmentDate: new Date(e.target.value),
+													})
+												}}
+											/>
+										) : (
+											<Field
+												placeholder=''
+												type='date'
+												onChange={async e => {
+													console.log(e.target.value)
+													await VisitQueryService.updateStatus(query.id, {
+														status: 'Accept',
+														appointmentDate: new Date(e.target.value),
+													})
+												}}
+											/>
+										)}
 									</div>
 									<div className='text-center w-[20vw]'>{query.fio}</div>
 									<div className='text-center w-[15vw]'>
