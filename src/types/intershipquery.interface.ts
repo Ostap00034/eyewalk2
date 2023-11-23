@@ -8,6 +8,7 @@ export interface IIntershipQuery {
 	phoneNumber: string
 	activity: string
 	skills: string
+	appointmentDate: Date
 }
 
 export type TypeVisitQueries = { intershipqueries: IIntershipQuery[] }

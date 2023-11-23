@@ -26,7 +26,7 @@ export const IntershipQueryService = {
 
 	async updateStatus(
 		intershipqueryId: string | number,
-		data: { status: string }
+		data: { status: string; appointmentDate?: Date }
 	) {
 		return instance<IIntershipQuery>({
 			url: `/intershipquery/${intershipqueryId}`,

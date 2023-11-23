@@ -7,6 +7,7 @@ export interface IVisitQuery {
 	fio: string
 	phoneNumber: string
 	activity: string
+	appointmentDate: Date
 }
 
 export type TypeVisitQueries = { visitqueries: IVisitQuery[] }

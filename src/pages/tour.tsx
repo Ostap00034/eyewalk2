@@ -3,16 +3,15 @@ import { useEffect, useMemo, useRef, useState, useCallback } from 'react'
 import cn from 'clsx'
 
 import scenes from '@/data/scenes.json'
-import View360, {
-	EquirectProjection,
-	ViewChangeEvent,
-} from '@egjs/react-view360'
+import View360, { EquirectProjection } from '@egjs/react-view360'
 import '@egjs/react-view360/css/view360.min.css'
 import ReactPlayer from 'react-player'
-import { VisitqueryService } from '@/services/visitquery/visitquery.service'
-import { IVisitQuery } from '@/types/visitquery.interface'
-import { IIntershipQuery } from '@/types/intershipquery.interface'
+import { VisitQueryService } from '@/services/visitquery/visitquery.service'
 import { IntershipQueryService } from '@/services/intershipquery/intershipquery.service'
+import Button from '@/components/ui/button'
+import Image from 'next/legacy/image'
+import Field from '@/components/ui/field'
+import Link from 'next/link'
 
 const initVisitData = {
 	fio: '',
@@ -40,7 +39,9 @@ function Tour() {
 
 		newArray[number] = !newArray[number]
 
-		console.log(newArray)
+		for (var i = 0; i < newArray.length; ++i) {
+			newArray[i] = i === number ? !windows[number] : false
+		}
 
 		setWindows(newArray)
 	}
@@ -68,6 +69,7 @@ function Tour() {
 
 	return (
 		<div className='bg-white w-full h-screen'>
+			{/* Заявка на очный визит */}
 			<div className='w-full h-screen flex flex-col-reverse lg:flex-row'>
 				<div
 					className={cn(
@@ -76,30 +78,76 @@ function Tour() {
 						'transition-all z-[1] duration-300 ease-in-out fixed w-auto top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'
 					)}
 				>
-					<form className='bg-slate-400 text-black flex flex-col min-w-[438px] h-auto p-6 gap-6'>
-						<div className=''></div>
-						<input
-							type='text'
-							value={visitData.fio}
-							onChange={e => {
-								setVisitData({ ...visitData, fio: e.target.value })
-							}}
-						/>
-						<input
-							type='text'
-							value={visitData.phoneNumber}
-							onChange={e => {
-								setVisitData({ ...visitData, phoneNumber: e.target.value })
-							}}
-						/>
-						<input
-							type='text'
-							value={visitData.activity}
-							onChange={e => {
-								setVisitData({ ...visitData, activity: e.target.value })
-							}}
-						/>
-						<button
+					<form className='bg-white flex flex-col min-w-[438px] h-auto p-6 rounded-xl border-[1px] border-[#f2f2f2]'>
+						<div className='flex flex-row justify-between'>
+							<div className='text-[24px] font-century-gothic font-bold leading-[32px]'>
+								Заявка на очный визит
+							</div>
+							<div
+								onClick={() => {
+									handleOpenModal(0)
+								}}
+								className='w-10 h-10 p-2 border-[1px] border-[#f2f2f2] background-[#f6f7f8] rounded-xl cursor-pointer flex justify-center items-center'
+							>
+								<svg
+									xmlns='http://www.w3.org/2000/svg'
+									width='24'
+									height='24'
+									viewBox='0 0 24 24'
+									fill='none'
+								>
+									<g id='Line / All / X 2v'>
+										<path
+											id='Icon'
+											d='M17 7L12 12M12 12L7 17M12 12L17 17M12 12L7 7'
+											stroke='#6765F8'
+											stroke-width='2.5'
+											stroke-linecap='round'
+											stroke-linejoin='round'
+										/>
+									</g>
+								</svg>
+							</div>
+						</div>
+
+						<div className='w-full h-6'></div>
+
+						<div className='flex flex-col gap-4'>
+							<Field
+								placeholder='ФИО'
+								type='text'
+								value={intershipData.fio}
+								onChange={e => {
+									setIntershipData({ ...intershipData, fio: e.target.value })
+								}}
+							/>
+							<Field
+								placeholder='Контактные данные'
+								type='text'
+								value={intershipData.phoneNumber}
+								onChange={e => {
+									setIntershipData({
+										...intershipData,
+										phoneNumber: e.target.value,
+									})
+								}}
+							/>
+							<Field
+								placeholder='Место работы/учебы'
+								type='text'
+								value={intershipData.activity}
+								onChange={e => {
+									setIntershipData({
+										...intershipData,
+										activity: e.target.value,
+									})
+								}}
+							/>
+						</div>
+
+						<div className='h-8 w-full'></div>
+
+						<Button
 							onClick={e => {
 								e.preventDefault()
 								if (
@@ -107,18 +155,18 @@ function Tour() {
 									visitData.phoneNumber &&
 									visitData.activity
 								)
-									VisitqueryService.create({
+									VisitQueryService.create({
 										...visitData,
 										to: scenes[srcNum].name || 'ИТ парк',
 									})
 								setVisitData(initVisitData)
 								handleOpenModal(1)
 							}}
-						>
-							Подать
-						</button>
+							text='Отправить'
+						/>
 					</form>
 				</div>
+				{/* Заявка на практику/стажировку */}
 				<div
 					className={cn(
 						'min-w-[30vw]',
@@ -126,16 +174,48 @@ function Tour() {
 						'transition-all z-[1] duration-300 ease-in-out fixed w-auto top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'
 					)}
 				>
-					<form className='bg-slate-400 text-black flex flex-col min-w-[438px] h-auto p-6 gap-6'>
-						<div className=''></div>
-						<input
+					<form className='bg-white flex flex-col min-w-[438px] h-auto p-6 gap-6 rounded-xl border-[1px] border-[#f2f2f2]'>
+						<div className='flex flex-row justify-between'>
+							<div className='text-[24px] font-century-gothic font-bold leading-[32px]'>
+								Заявка на <br />
+								практику/стажировку
+							</div>
+							<div
+								onClick={() => {
+									handleOpenModal(1)
+								}}
+								className='w-10 h-10 p-2 border-[1px] border-[#f2f2f2] background-[#f6f7f8] rounded-xl cursor-pointer flex justify-center items-center'
+							>
+								<svg
+									xmlns='http://www.w3.org/2000/svg'
+									width='24'
+									height='24'
+									viewBox='0 0 24 24'
+									fill='none'
+								>
+									<g id='Line / All / X 2v'>
+										<path
+											id='Icon'
+											d='M17 7L12 12M12 12L7 17M12 12L17 17M12 12L7 7'
+											stroke='#6765F8'
+											strokeWidth='2.5'
+											strokeLinecap='round'
+											strokeLinejoin='round'
+										/>
+									</g>
+								</svg>
+							</div>
+						</div>
+						<Field
+							placeholder='ФИО'
 							type='text'
 							value={intershipData.fio}
 							onChange={e => {
 								setIntershipData({ ...intershipData, fio: e.target.value })
 							}}
 						/>
-						<input
+						<Field
+							placeholder='Контактные данные'
 							type='text'
 							value={intershipData.phoneNumber}
 							onChange={e => {
@@ -145,21 +225,23 @@ function Tour() {
 								})
 							}}
 						/>
-						<input
+						<Field
+							placeholder='Место работы/учебы'
 							type='text'
 							value={intershipData.activity}
 							onChange={e => {
 								setIntershipData({ ...intershipData, activity: e.target.value })
 							}}
 						/>
-						<input
+						<Field
+							placeholder='Навыки'
 							type='text'
 							value={intershipData.skills}
 							onChange={e => {
 								setIntershipData({ ...intershipData, skills: e.target.value })
 							}}
 						/>
-						<button
+						<Button
 							onClick={e => {
 								e.preventDefault()
 								if (
@@ -173,13 +255,13 @@ function Tour() {
 										to: scenes[srcNum].name || 'ИТ парк',
 									})
 								setIntershipData(initIntershipData)
-								handleOpenModal(1)
+								handleOpenModal(0)
 							}}
-						>
-							Подать
-						</button>
+							text='Отправить'
+						/>
 					</form>
 				</div>
+				{/* Видео основателя */}
 				{scenes[srcNum].video ? (
 					<div
 						className={cn(
@@ -188,43 +270,80 @@ function Tour() {
 							'transition-all z-[1] fixed duration-300 ease-in-out w-auto top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'
 						)}
 					>
-						<div className='relative'>
-							<svg
-								className='absolute right-0 -top-10 w-10 h-10 p-1 bg-slate-400 rounded-full cursor-pointer'
-								onClick={() => {
-									handleOpenModal(2)
-								}}
-								viewBox='0 0 50 50'
-							>
-								<path
-									xmlns='http://www.w3.org/2000/svg'
-									d='M 9.15625 6.3125 L 6.3125 9.15625 L 22.15625 25 L 6.21875 40.96875 L 9.03125 43.78125 L 25 27.84375 L 40.9375 43.78125 L 43.78125 40.9375 L 27.84375 25 L 43.6875 9.15625 L 40.84375 6.3125 L 25 22.15625 Z'
-								/>
-							</svg>
+						<div className='bg-white flex flex-col min-w-[438px] h-auto p-6 gap-6 rounded-xl border-[1px] border-[#f2f2f2]'>
+							<div className='flex flex-row justify-between'>
+								<div className='text-[24px] font-century-gothic font-bold leading-[32px]'>
+									Видое основателя{' '}
+								</div>
+								<div
+									onClick={() => {
+										handleOpenModal(2)
+									}}
+									className='w-10 h-10 p-2 border-[1px] border-[#f2f2f2] background-[#f6f7f8] rounded-xl cursor-pointer flex justify-center items-center'
+								>
+									<svg
+										xmlns='http://www.w3.org/2000/svg'
+										width='24'
+										height='24'
+										viewBox='0 0 24 24'
+										fill='none'
+									>
+										<g id='Line / All / X 2v'>
+											<path
+												id='Icon'
+												d='M17 7L12 12M12 12L7 17M12 12L17 17M12 12L7 7'
+												stroke='#6765F8'
+												strokeWidth='2.5'
+												strokeLinecap='round'
+												strokeLinejoin='round'
+											/>
+										</g>
+									</svg>
+								</div>
+							</div>
+
 							<ReactPlayer
 								controls
-								className='w-full h-full'
+								className='w-full h-full rounded-xl overflow-hidden'
 								url={scenes[srcNum].video}
 							/>
 						</div>
 					</div>
 				) : null}
-				<div className='w-full h-[30vh] overflow-y-scroll lg:w-[30vw] lg:h-screen bg-red-600 text-black text-xl flex flex-col'>
-					{scenes[srcNum].name}
-					<div className=''>
-						<div className=''>Основатель</div>
-						<div className=''>{scenes[srcNum].creator || 'Остутствует'}</div>
-					</div>
-					<div className=''>
-						<div className=''>Дата начала резиденства</div>
-						<div className=''>{scenes[srcNum].createdAt || 'Остутствует'}</div>
-					</div>
-					<div className=''>
-						<div className=''>Сфера деятельности</div>
-						<div className=''>
-							{scenes[srcNum].fieldOfActivity || 'Остутствует'}
+				{/* SideBar */}
+				<div className='w-full h-[30vh] overflow-y-scroll lg:w-[40vw] lg:h-screen text-black text-xl flex flex-col justify-start items-center'>
+					{scenes[srcNum].preview ? (
+						<div className='relative w-full'>
+							<Image
+								layout='responsive'
+								width='322'
+								height='254'
+								alt='Preview Image'
+								src={scenes[srcNum].preview!}
+							/>
 						</div>
-					</div>
+					) : null}
+					{scenes[srcNum].name}
+					{scenes[srcNum].creator ? (
+						<div className=''>
+							<div className=''>Основатель</div>
+							<div className=''>{scenes[srcNum].creator || 'Остутствует'}</div>
+						</div>
+					) : null}
+					{scenes[srcNum].created ? (
+						<div className=''>
+							<div className=''>Дата начала резиденства</div>
+							<div className=''>{scenes[srcNum].created || 'Остутствует'}</div>
+						</div>
+					) : null}
+					{scenes[srcNum].fieldOfActivity ? (
+						<div className=''>
+							<div className=''>Сфера деятельности</div>
+							<div className=''>
+								{scenes[srcNum].fieldOfActivity || 'Остутствует'}
+							</div>
+						</div>
+					) : null}
 					<div className=''>
 						<div className=''>Информация</div>
 						<div className=''>{scenes[srcNum].info || 'Остутствует'}</div>
@@ -233,35 +352,39 @@ function Tour() {
 						<div className=''>Услуга</div>
 						<div className=''>{scenes[srcNum].service || 'Остутствует'}</div>
 					</div>
-					<button
-						onClick={() => {
-							handleOpenModal(0)
-						}}
-						className=''
-					>
-						Отправить заявку на очный визит
-					</button>
-					<button
-						onClick={() => {
-							handleOpenModal(1)
-						}}
-						className=''
-					>
-						Отправить заявку на прохождение практики/стажировки
-					</button>
-					{scenes[srcNum].video ? (
-						<button
+					<div className='flex flex-row lg:flex-col gap-4 lg:gap-6 w-min max-w-full px-6 flex-wrap'>
+						{srcNum === 0 && (
+							<Link href='https://tpykt.ru/participant/'>
+								<Button text='Стать резидентом' />
+							</Link>
+						)}
+						<Button
 							onClick={() => {
-								handleOpenModal(2)
+								handleOpenModal(0)
 							}}
-						>
-							Посмотреть выступление основателя
-						</button>
-					) : null}
+							className=''
+							text='Заявка на очный визит'
+						/>
+						{scenes[srcNum].service && (
+							<Button
+								onClick={() => {
+									handleOpenModal(1)
+								}}
+								className=''
+								text='Заявка на практику/стажировку'
+							/>
+						)}
+						{scenes[srcNum].video ? (
+							<Button
+								onClick={() => {
+									handleOpenModal(2)
+								}}
+								text='Выступление основателя'
+							/>
+						) : null}
+					</div>
 				</div>
-
 				<View360
-					// onViewChange={(evt: ViewChangeEvent) => {}}
 					ref={viewerRef}
 					hotspot={{ zoom: true }}
 					className='w-full h-full'
@@ -269,33 +392,31 @@ function Tour() {
 					initialPitch={scenes[srcNum].init.pitch}
 					initialYaw={scenes[srcNum].init.yaw}
 				>
-					<div className='view360-container h-0 is-16by9'>
-						<div className='view360-hotspots'>
-							{scenes[srcNum].hotSpotsArr.map((hotspot, index) => {
-								return (
-									<div
-										key={index}
-										className={cn('view360-hotspot', 'cursor-pointer')}
-										data-yaw={hotspot.yaw}
-										data-pitch={hotspot.pitch}
-										onClick={() => {
-											changeProjection(hotspot.transition)
-										}}
-									>
-										<svg z={100} height='100' width='100'>
-											<circle
-												cx='50'
-												cy='50'
-												r='30'
-												stroke='blue'
-												strokeWidth='2'
-												fill='white'
-											/>
-										</svg>
-									</div>
-								)
-							})}
-						</div>
+					<div className='view360-hotspots'>
+						{scenes[srcNum].hotSpotsArr.map((hotspot, index) => {
+							return (
+								<div
+									key={index}
+									className={cn('view360-hotspot', 'cursor-pointer')}
+									data-yaw={hotspot.yaw}
+									data-pitch={hotspot.pitch}
+									onClick={() => {
+										changeProjection(hotspot.transition)
+									}}
+								>
+									<svg z={100} height='100' width='100'>
+										<circle
+											cx='50'
+											cy='50'
+											r='30'
+											stroke='blue'
+											strokeWidth='2'
+											fill='white'
+										/>
+									</svg>
+								</div>
+							)
+						})}
 					</div>
 				</View360>
 			</div>

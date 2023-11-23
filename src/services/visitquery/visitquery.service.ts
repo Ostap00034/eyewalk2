@@ -24,7 +24,10 @@ export const VisitQueryService = {
 		})
 	},
 
-	async updateStatus(VisitqueryId: string | number, data: { status: string }) {
+	async updateStatus(
+		VisitqueryId: string | number,
+		data: { status: string; appointmentDate?: Date }
+	) {
 		return instance<IVisitQuery>({
 			url: `/visitquery/${VisitqueryId}`,
 			method: 'PUT',

@@ -1,9 +1,13 @@
+import { useAuth } from '@/hooks/useAuth'
 import { useAuthRedirect } from './useAuthRedirect'
-import { logout } from '@/store/user/user.actions'
+import { useActions } from '@/hooks/useActions'
 
 const Logout = () => {
 	useAuthRedirect()
+	const { logout } = useActions()
+
 	logout()
+
 	return <div>Logout</div>
 }
 

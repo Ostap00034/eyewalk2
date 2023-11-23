@@ -4,7 +4,8 @@
     "name": "Вход в ИТ Парк",
     "scenePanoImg": "/ENTER.jpg",
     "hotSpotsArr": [{"pitch": -3.72, "yaw": -128.6, "transition": 1}],
-    "init": {"pitch": 5.7, "yaw": -20}
+    "init": {"pitch": 5.7, "yaw": -20},
+    "preview": "/previews/enter.png"
   },
   {
     "id": 1,
@@ -24,7 +25,6 @@
     "id": 3,
     "name": "Выход с лифта",
     "scenePanoImg": "/LIFT_EXIT.jpg",
-    "name": "Выход с лифта",
     "hotSpotsArr": [{"pitch": -13, "yaw": -177, "transition": 2}, {"pitch": -3, "yaw": -96, "transition": 4}],
     "init": {"pitch": -230, "yaw": 12}
   },
@@ -39,7 +39,7 @@
     "id": 5,
     "name": "SmartOm",
     "creator": "Михайлов Максим Павлович",
-    "createdAt": "16.09.2022",
+    "created": "16.09.2022",
     "fieldOfActivity": "ИТ",
     "video": "/smartom_video.mp4",
     "info": "Разработка промышленных программируемых логических контроллеров SmartPLC и систем автоматизации, со своей облачной платформой SmartOmCloud.",
@@ -52,6 +52,7 @@
     "id": 6,
     "name": "GIGA TECH",
     "scenePanoImg": "/622_ROOM.jpg",
+    "service": "Гидропонные установки",
     "hotSpotsArr": [{"pitch": -10, "yaw": 165, "transition": 4}],
     "init": {"pitch": 3, "yaw": 10}
   }
