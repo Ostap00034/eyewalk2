@@ -73,9 +73,10 @@ function Tour() {
 	)
 
 	return (
-		<div className='bg-white w-full h-screen'>
+		<div className='bg-white w-full h-screen flex flex-col justify-start items-start'>
 			{/* Заявка на очный визит */}
-			<div className='w-full h-screen flex flex-col-reverse lg:flex-row justify-start items-start'>
+			<div className='w-full h-screen flex flex-col-reverse md:flex-row justify-start items-start'>
+				{/* Заявка на очный визит */}
 				<div
 					className={cn(
 						'min-w-[30vw] h-auto',
@@ -322,9 +323,9 @@ function Tour() {
 					</div>
 				) : null}
 				{/* SideBar */}
-				<div className='w-full px-6 py-4 max-h-[30vh] overflow-y-auto gap-2 font-manrope text-[14px] font-medium leading-6 lg:w-[40vw] lg:h-screen text-black text-xl flex flex-col justify-center'>
-					{scenes[srcNum].preview ? (
-						<div className='relative w-full'>
+				<div className='w-full px-6 py-4 h-[30vh] relative md:max-h-screen overflow-hidden overflow-y-auto gap-2 font-manrope text-[14px] font-medium leading-6 md:w-[40vw] md:h-screen text-black flex flex-col justify-center'>
+					{scenes[srcNum].preview && (
+						<div className='relative w-[31.5vh] h-[24vh] md:h-auto md:w-full my-4'>
 							<Image
 								layout='responsive'
 								width='322'
@@ -333,7 +334,7 @@ function Tour() {
 								src={scenes[srcNum].preview!}
 							/>
 						</div>
-					) : null}
+					)}
 					<div className='text-[24px]'>
 						{scenes[srcNum].urid || scenes[srcNum].name}
 					</div>
@@ -407,7 +408,7 @@ function Tour() {
 						) : null}
 					</div>
 				</div>
-				<div className='relative w-full lg:w-[60vw] h-[70vh] lg:h-screen'>
+				<div className='relative w-full md:w-[60vw] h-[70vh] md:h-screen'>
 					<View360
 						ref={viewerRef}
 						hotspot={{ zoom: true }}
