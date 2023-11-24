@@ -33,6 +33,7 @@ function Tour() {
 	const [windows, setWindows] = useState([false, false])
 	const [visitData, setVisitData] = useState<any>(initVisitData)
 	const [intershipData, setIntershipData] = useState<any>(initIntershipData)
+	const [playing, setPlaying] = useState(false)
 
 	const handleOpenModal = (number: number) => {
 		const newArray = [...windows]
@@ -41,6 +42,10 @@ function Tour() {
 
 		for (var i = 0; i < newArray.length; ++i) {
 			newArray[i] = i === number ? !windows[number] : false
+		}
+
+		if (number === 2) {
+			setPlaying(!playing)
 		}
 
 		setWindows(newArray)
@@ -70,7 +75,7 @@ function Tour() {
 	return (
 		<div className='bg-white w-full h-screen'>
 			{/* Заявка на очный визит */}
-			<div className='w-full h-screen flex flex-col-reverse lg:flex-row'>
+			<div className='w-full h-screen flex flex-col-reverse lg:flex-row justify-start items-start'>
 				<div
 					className={cn(
 						'min-w-[30vw] h-auto',
@@ -308,6 +313,7 @@ function Tour() {
 							</div>
 
 							<ReactPlayer
+								playing={playing}
 								controls
 								className='w-full h-full rounded-xl overflow-hidden'
 								url={scenes[srcNum].video}
@@ -316,7 +322,7 @@ function Tour() {
 					</div>
 				) : null}
 				{/* SideBar */}
-				<div className='w-full h-[30vh] overflow-y-scroll lg:w-[40vw] lg:h-screen text-black text-xl flex flex-col justify-start items-center'>
+				<div className='w-full px-6 py-4 max-h-[30vh] overflow-y-auto gap-2 font-manrope text-[14px] font-medium leading-6 lg:w-[40vw] lg:h-screen text-black text-xl flex flex-col justify-center'>
 					{scenes[srcNum].preview ? (
 						<div className='relative w-full'>
 							<Image
@@ -328,36 +334,48 @@ function Tour() {
 							/>
 						</div>
 					) : null}
-					{scenes[srcNum].name}
-					{scenes[srcNum].creator ? (
-						<div className=''>
-							<div className=''>Основатель</div>
+					<div className='text-[24px]'>
+						{scenes[srcNum].urid || scenes[srcNum].name}
+					</div>
+					{scenes[srcNum].creator && (
+						<div className='w-full'>
+							<div className='text-[gray]'>Основатель</div>
 							<div className=''>{scenes[srcNum].creator || 'Остутствует'}</div>
 						</div>
-					) : null}
-					{scenes[srcNum].created ? (
-						<div className=''>
-							<div className=''>Дата начала резиденства</div>
+					)}
+					{scenes[srcNum].created && (
+						<div className='w-full'>
+							<div className='text-[gray]'>Дата начала резиденства</div>
 							<div className=''>{scenes[srcNum].created || 'Остутствует'}</div>
 						</div>
-					) : null}
-					{scenes[srcNum].fieldOfActivity ? (
-						<div className=''>
-							<div className=''>Сфера деятельности</div>
+					)}
+					{scenes[srcNum].fieldOfActivity && (
+						<div className='w-full'>
+							<div className='text-[gray]'>Сфера деятельности</div>
 							<div className=''>
 								{scenes[srcNum].fieldOfActivity || 'Остутствует'}
 							</div>
 						</div>
-					) : null}
-					<div className=''>
-						<div className=''>Информация</div>
-						<div className=''>{scenes[srcNum].info || 'Остутствует'}</div>
-					</div>
-					<div className=''>
-						<div className=''>Услуга</div>
-						<div className=''>{scenes[srcNum].service || 'Остутствует'}</div>
-					</div>
-					<div className='flex flex-row lg:flex-col gap-4 lg:gap-6 w-min max-w-full px-6 flex-wrap'>
+					)}
+					{scenes[srcNum].info && (
+						<div className='w-full'>
+							<div className='text-[gray]'>Информация</div>
+							<div className=''>{scenes[srcNum].info || 'Остутствует'}</div>
+						</div>
+					)}
+					{scenes[srcNum].goals && (
+						<div className='w-full'>
+							<div className='text-[gray]'>Цели и задачи деятельности</div>
+							<div className=''>{scenes[srcNum].goals}</div>
+						</div>
+					)}
+					{scenes[srcNum].service && (
+						<div className='w-full'>
+							<div className='text-[gray]'>Услуга</div>
+							<div className=''>{scenes[srcNum].service || 'Остутствует'}</div>
+						</div>
+					)}
+					<div className='flex flex-row w-full lg:flex-col mt-2 gap-4 lg:gap-6 max-w-full flex-wrap'>
 						{srcNum === 0 && (
 							<Link href='https://tpykt.ru/participant/'>
 								<Button text='Стать резидентом' />
@@ -389,41 +407,43 @@ function Tour() {
 						) : null}
 					</div>
 				</div>
-				<View360
-					ref={viewerRef}
-					hotspot={{ zoom: true }}
-					className='w-full h-full'
-					projection={projection}
-					initialPitch={scenes[srcNum].init.pitch}
-					initialYaw={scenes[srcNum].init.yaw}
-				>
-					<div className='view360-hotspots'>
-						{scenes[srcNum].hotSpotsArr.map((hotspot, index) => {
-							return (
-								<div
-									key={index}
-									className={cn('view360-hotspot', 'cursor-pointer')}
-									data-yaw={hotspot.yaw}
-									data-pitch={hotspot.pitch}
-									onClick={() => {
-										changeProjection(hotspot.transition)
-									}}
-								>
-									<svg z={100} height='100' width='100'>
-										<circle
-											cx='50'
-											cy='50'
-											r='30'
-											stroke='blue'
-											strokeWidth='2'
-											fill='white'
-										/>
-									</svg>
-								</div>
-							)
-						})}
-					</div>
-				</View360>
+				<div className='relative w-full lg:w-[60vw] h-[70vh] lg:h-screen'>
+					<View360
+						ref={viewerRef}
+						hotspot={{ zoom: true }}
+						className='w-full h-full outline-none'
+						projection={projection}
+						initialPitch={scenes[srcNum].init.pitch}
+						initialYaw={scenes[srcNum].init.yaw}
+					>
+						<div className='view360-hotspots'>
+							{scenes[srcNum].hotSpotsArr.map((hotspot, index) => {
+								return (
+									<div
+										key={index}
+										className={cn('view360-hotspot', 'cursor-pointer')}
+										data-yaw={hotspot.yaw}
+										data-pitch={hotspot.pitch}
+										onClick={() => {
+											changeProjection(hotspot.transition)
+										}}
+									>
+										<svg z={100} height='100' width='100'>
+											<circle
+												cx='50'
+												cy='50'
+												r='30'
+												stroke='blue'
+												strokeWidth='2'
+												fill='white'
+											/>
+										</svg>
+									</div>
+								)
+							})}
+						</div>
+					</View360>
+				</div>
 			</div>
 		</div>
 	)
