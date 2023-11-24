@@ -28,7 +28,7 @@ export const AuthService = {
 		const refreshToken = Cookies.get('refreshToken')
 
 		const response = await axios.post<string, { data: IAuthResponse }>(
-			'https://eye-walk.online/api' + 'auth/login/access-token',
+			'https://eye-walk.online/api/' + 'auth/login/access-token',
 			{ refreshToken },
 			{
 				headers: getContentType(),

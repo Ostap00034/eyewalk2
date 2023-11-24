@@ -7,8 +7,6 @@ import Field from '@/components/ui/field'
 import cn from 'clsx'
 import { io } from 'socket.io-client/debug'
 
-const statuses = ['На рассмотрении', 'Отклонено', 'Принято']
-
 const IntershipQueries = () => {
 	const [data, setData] = useState<IIntershipQuery[]>([])
 	const [status, setStatus] = useState('In analys')

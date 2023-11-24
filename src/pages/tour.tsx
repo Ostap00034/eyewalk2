@@ -116,18 +116,18 @@ function Tour() {
 							<Field
 								placeholder='ФИО'
 								type='text'
-								value={intershipData.fio}
+								value={visitData.fio}
 								onChange={e => {
-									setIntershipData({ ...intershipData, fio: e.target.value })
+									setVisitData({ ...visitData, fio: e.target.value })
 								}}
 							/>
 							<Field
 								placeholder='Контактные данные'
 								type='text'
-								value={intershipData.phoneNumber}
+								value={visitData.phoneNumber}
 								onChange={e => {
-									setIntershipData({
-										...intershipData,
+									setVisitData({
+										...visitData,
 										phoneNumber: e.target.value,
 									})
 								}}
@@ -135,10 +135,10 @@ function Tour() {
 							<Field
 								placeholder='Место работы/учебы'
 								type='text'
-								value={intershipData.activity}
+								value={visitData.activity}
 								onChange={e => {
-									setIntershipData({
-										...intershipData,
+									setVisitData({
+										...visitData,
 										activity: e.target.value,
 									})
 								}}
@@ -154,13 +154,17 @@ function Tour() {
 									visitData.fio &&
 									visitData.phoneNumber &&
 									visitData.activity
-								)
+								) {
+									console.log('lsdkf')
 									VisitQueryService.create({
 										...visitData,
 										to: scenes[srcNum].name || 'ИТ парк',
 									})
-								setVisitData(initVisitData)
-								handleOpenModal(1)
+									setVisitData(initVisitData)
+									handleOpenModal(0)
+								} else {
+									console.log(visitData)
+								}
 							}}
 							text='Отправить'
 						/>
@@ -249,13 +253,14 @@ function Tour() {
 									intershipData.phoneNumber &&
 									intershipData.activity &&
 									intershipData.skills
-								)
+								) {
 									IntershipQueryService.create({
 										...intershipData,
 										to: scenes[srcNum].name || 'ИТ парк',
 									})
-								setIntershipData(initIntershipData)
-								handleOpenModal(0)
+									setIntershipData(initIntershipData)
+									handleOpenModal(1)
+								}
 							}}
 							text='Отправить'
 						/>
