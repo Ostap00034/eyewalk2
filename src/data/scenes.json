@@ -2,7 +2,7 @@
   {
     "id": 0,
     "name": "Вход в ИТ Парк",
-    "scenePanoImg": "/ENTER.jpg",
+    "scenePanoImg": "/ENTER.jpg?resize=800x600",
     "hotSpotsArr": [{"pitch": -3.72, "yaw": -128.6, "transition": 1}],
     "init": {"pitch": 5.7, "yaw": -20},
     "preview": "/previews/enter.png"
@@ -10,28 +10,28 @@
   {
     "id": 1,
     "name": "Турникет",
-    "scenePanoImg": "/ATRIUM.jpg",
+    "scenePanoImg": "/ATRIUM.jpg?resize=800x600",
     "hotSpotsArr": [{"pitch": 2, "yaw": -117.6, "transition": 0}, {"pitch": -2, "yaw": -1, "transition":2}],
     "init": {"pitch": -5.7, "yaw": 50}
   },
   {
     "id": 2,
     "name": "Лифт",
-    "scenePanoImg": "/LIFT.jpg",
+    "scenePanoImg": "/LIFT.jpg?resize=800x600",
     "hotSpotsArr": [{"pitch": -37, "yaw": -63, "transition": 1}, {"pitch": -10, "yaw": 20, "transition": 3}],
     "init": {"pitch": 5.7, "yaw": 20}
   },
   {
     "id": 3,
     "name": "Выход с лифта",
-    "scenePanoImg": "/LIFT_EXIT.jpg",
+    "scenePanoImg": "/LIFT_EXIT.jpg?resize=800x600",
     "hotSpotsArr": [{"pitch": -13, "yaw": -177, "transition": 2}, {"pitch": -3, "yaw": -96, "transition": 4}],
     "init": {"pitch": -230, "yaw": 12}
   },
   {
     "id": 4,
     "name": "Коридор 6 этаж",
-    "scenePanoImg": "/KORIDOR.jpg",
+    "scenePanoImg": "/KORIDOR.jpg?resize=800x600",
     "hotSpotsArr": [{"pitch": -4, "yaw": 153, "transition": 3}, {"pitch": -12, "yaw": 88, "transition": 5}, {"pitch": -12, "yaw": 260, "transition": 6}],
     "init": {"pitch": 3, "yaw": 10}
   },
@@ -46,7 +46,7 @@
     "video": "/smartom_video.mp4",
     "info": "Разработка промышленных программируемых логических контроллеров SmartPLC и систем автоматизации, со своей облачной платформой SmartOmCloud.",
     "service": "Поставка продукции SmartOm. Услуги по разработке электроники и IoT устройств полного цикла.",
-    "scenePanoImg": "/615_ROOM.jpg",
+    "scenePanoImg": "/615_ROOM.jpg?resize=800x600",
     "hotSpotsArr": [{"pitch": -9, "yaw": 225, "transition": 4}],
     "init": {"pitch": -230, "yaw": 12}
   },
@@ -58,7 +58,7 @@
     "creator": "Степанов Павел Витальевич",
     "fieldOfActivity": "ИТ",
     "info": "Разработка и внедрение автоматизации в сельское хозяйство.",
-    "scenePanoImg": "/622_ROOM.jpg",
+    "scenePanoImg": "/622_ROOM.jpg?resize=800x600",
     "service": "Поставка продукции GIGATECH. Услуги по разработке и автоматизации.",
     "hotSpotsArr": [{"pitch": -10, "yaw": 165, "transition": 4}],
     "init": {"pitch": 3, "yaw": 10}
