@@ -84,7 +84,7 @@ function Tour() {
 						'transition-all z-[1] duration-300 ease-in-out fixed w-auto top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'
 					)}
 				>
-					<form className='bg-white flex flex-col min-w-[438px] h-auto p-6 rounded-xl border-[1px] border-[#f2f2f2]'>
+					<form className='bg-white flex flex-col w-[96vw] md:w-auto h-auto p-6 gap-6 rounded-xl border-[1px] border-[#f2f2f2]'>
 						<div className='flex flex-row justify-between'>
 							<div className='text-[24px] font-century-gothic font-bold leading-[32px]'>
 								Заявка на очный визит
@@ -184,7 +184,7 @@ function Tour() {
 						'transition-all z-[1] duration-300 ease-in-out fixed w-auto top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'
 					)}
 				>
-					<form className='bg-white flex flex-col min-w-[438px] h-auto p-6 gap-6 rounded-xl border-[1px] border-[#f2f2f2]'>
+					<form className='bg-white flex flex-col w-[96vw] md:w-auto h-auto p-6 gap-6 rounded-xl border-[1px] border-[#f2f2f2]'>
 						<div className='flex flex-row justify-between'>
 							<div className='text-[24px] font-century-gothic font-bold leading-[32px]'>
 								Заявка на <br />
@@ -281,7 +281,7 @@ function Tour() {
 							'transition-all z-[1] fixed duration-300 ease-in-out w-auto top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'
 						)}
 					>
-						<div className='bg-white flex flex-col min-w-[438px] h-auto p-6 gap-6 rounded-xl border-[1px] border-[#f2f2f2]'>
+						<div className='bg-white flex flex-col w-[96vw] md:w-auto h-auto p-6 gap-6 rounded-xl border-[1px] border-[#f2f2f2]'>
 							<div className='flex flex-row justify-between'>
 								<div className='text-[24px] font-century-gothic font-bold leading-[32px]'>
 									Видое основателя{' '}
@@ -313,101 +313,114 @@ function Tour() {
 								</div>
 							</div>
 
-							<ReactPlayer
-								playing={playing}
-								controls
-								className='w-full h-full rounded-xl overflow-hidden'
-								url={scenes[srcNum].video}
-							/>
+							<div className='w-[100%] overflow-hidden relative'>
+								<ReactPlayer
+									width={'100%'}
+									playing={playing}
+									controls
+									loop={true}
+									className='h-full w-full rounded-xl overflow-hidden'
+									url={scenes[srcNum].video}
+								/>
+							</div>
 						</div>
 					</div>
 				) : null}
 				{/* SideBar */}
-				<div className='w-full px-6 py-4 h-[30vh] relative md:max-h-screen overflow-hidden overflow-y-auto gap-2 font-manrope text-[14px] font-medium leading-6 md:w-[40vw] md:h-screen text-black flex flex-col justify-center'>
-					{scenes[srcNum].preview && (
-						<div className='relative w-[31.5vh] h-[24vh] md:h-auto md:w-full my-4'>
-							<Image
-								layout='responsive'
-								width='322'
-								height='254'
-								alt='Preview Image'
-								src={scenes[srcNum].preview!}
-							/>
-						</div>
-					)}
-					<div className='text-[24px]'>
-						{scenes[srcNum].urid || scenes[srcNum].name}
-					</div>
-					{scenes[srcNum].creator && (
-						<div className='w-full'>
-							<div className='text-[gray]'>Основатель</div>
-							<div className=''>{scenes[srcNum].creator || 'Остутствует'}</div>
-						</div>
-					)}
-					{scenes[srcNum].created && (
-						<div className='w-full'>
-							<div className='text-[gray]'>Дата начала резиденства</div>
-							<div className=''>{scenes[srcNum].created || 'Остутствует'}</div>
-						</div>
-					)}
-					{scenes[srcNum].fieldOfActivity && (
-						<div className='w-full'>
-							<div className='text-[gray]'>Сфера деятельности</div>
-							<div className=''>
-								{scenes[srcNum].fieldOfActivity || 'Остутствует'}
+				<div className='w-full h-[30vh] relative md:max-h-screen overflow-y-auto gap-2 font-manrope md:w-[40vw] md:h-screen text-black'>
+					<div className='w-full px-6 py-4 h-auto relative md:max-h-screen overflow-hidden overflow-y-auto gap-2 font-manrope text-[14px] font-medium leading-6 md:w-[40vw] md:h-screen text-black flex flex-col justify-center'>
+						{scenes[srcNum].preview && (
+							<div className='relative w-[31.5vh] h-[24vh] md:h-auto md:w-full my-4'>
+								<Image
+									layout='responsive'
+									width='322'
+									height='254'
+									alt='Preview Image'
+									src={scenes[srcNum].preview!}
+								/>
 							</div>
-						</div>
-					)}
-					{scenes[srcNum].info && (
-						<div className='w-full'>
-							<div className='text-[gray]'>Информация</div>
-							<div className=''>{scenes[srcNum].info || 'Остутствует'}</div>
-						</div>
-					)}
-					{scenes[srcNum].goals && (
-						<div className='w-full'>
-							<div className='text-[gray]'>Цели и задачи деятельности</div>
-							<div className=''>{scenes[srcNum].goals}</div>
-						</div>
-					)}
-					{scenes[srcNum].service && (
-						<div className='w-full'>
-							<div className='text-[gray]'>Услуга</div>
-							<div className=''>{scenes[srcNum].service || 'Остутствует'}</div>
-						</div>
-					)}
-					<div className='flex flex-row w-full lg:flex-col mt-2 gap-4 lg:gap-6 max-w-full flex-wrap'>
-						{srcNum === 0 && (
-							<Link href='https://tpykt.ru/participant/'>
-								<Button text='Стать резидентом' />
-							</Link>
 						)}
-						<Button
-							onClick={() => {
-								handleOpenModal(0)
-							}}
-							className=''
-							text='Заявка на очный визит'
-						/>
+						<div className='text-[24px]'>
+							{scenes[srcNum].urid || scenes[srcNum].name}
+						</div>
+						{scenes[srcNum].creator && (
+							<div className='w-full'>
+								<div className='text-[gray]'>Основатель</div>
+								<div className=''>
+									{scenes[srcNum].creator || 'Остутствует'}
+								</div>
+							</div>
+						)}
+						{scenes[srcNum].created && (
+							<div className='w-full'>
+								<div className='text-[gray]'>Дата начала резиденства</div>
+								<div className=''>
+									{scenes[srcNum].created || 'Остутствует'}
+								</div>
+							</div>
+						)}
+						{scenes[srcNum].fieldOfActivity && (
+							<div className='w-full'>
+								<div className='text-[gray]'>Сфера деятельности</div>
+								<div className=''>
+									{scenes[srcNum].fieldOfActivity || 'Остутствует'}
+								</div>
+							</div>
+						)}
+						{scenes[srcNum].info && (
+							<div className='w-full'>
+								<div className='text-[gray]'>Информация</div>
+								<div className=''>{scenes[srcNum].info || 'Остутствует'}</div>
+							</div>
+						)}
+						{scenes[srcNum].goals && (
+							<div className='w-full'>
+								<div className='text-[gray]'>Цели и задачи деятельности</div>
+								<div className=''>{scenes[srcNum].goals}</div>
+							</div>
+						)}
 						{scenes[srcNum].service && (
+							<div className='w-full'>
+								<div className='text-[gray]'>Услуга</div>
+								<div className=''>
+									{scenes[srcNum].service || 'Остутствует'}
+								</div>
+							</div>
+						)}
+						<div className='flex flex-row w-full lg:flex-col mt-2 gap-4 lg:gap-6 max-w-full flex-wrap'>
+							{srcNum === 0 && (
+								<Link href='https://tpykt.ru/participant/'>
+									<Button text='Стать резидентом' />
+								</Link>
+							)}
 							<Button
 								onClick={() => {
-									handleOpenModal(1)
+									handleOpenModal(0)
 								}}
 								className=''
-								text='Заявка на практику/стажировку'
+								text='Заявка на очный визит'
 							/>
-						)}
-						{scenes[srcNum].video ? (
-							<Button
-								onClick={() => {
-									handleOpenModal(2)
-								}}
-								text='Выступление основателя'
-							/>
-						) : null}
+							{scenes[srcNum].service && (
+								<Button
+									onClick={() => {
+										handleOpenModal(1)
+									}}
+									className=''
+									text='Заявка на практику/стажировку'
+								/>
+							)}
+							{scenes[srcNum].video ? (
+								<Button
+									onClick={() => {
+										handleOpenModal(2)
+									}}
+									text='Выступление основателя'
+								/>
+							) : null}
+						</div>
 					</div>
 				</div>
+
 				<div className='relative w-full md:w-[60vw] h-[70vh] md:h-screen'>
 					<View360
 						ref={viewerRef}
